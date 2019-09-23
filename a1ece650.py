@@ -11,7 +11,7 @@ class TrafficGraph(object):
         self.vertex = set()
         # store edges with a list after generating a graph
         self.edge = set()
-        # a flag used to mark whether the street_info is changed
+        # a flag used to mark whether the "street_info" is changed
         self.is_changed = True
     
     def addStreet(self, key, value):
@@ -20,7 +20,7 @@ class TrafficGraph(object):
         self.is_changed = True
     
     def changeStreet(self, key, value):
-        #if one item is changed, recover the street_info first
+        #if one item is changed, recover the "street_info" first
         for k, v in self.street_info_init.items():
             self.street_info[k] = list(v)  
         self.addStreet(key, value)
@@ -33,10 +33,10 @@ class TrafficGraph(object):
         self.is_changed = True
     
     def generate(self):
-        # there is no need to regenerate a graph if the street_info is not changed
+        # there is no need to regenerate a graph if the "street_info" is not changed
         if not self.is_changed:
             return
-        # if the info is changed clear vertex and edge to regenerate a new graph
+        # if the info is changed clear "vertex" and "edge" to regenerate a new graph
         self.vertex.clear()
         self.edge.clear()
         for k1, v1 in self.street_info.items():
@@ -44,7 +44,7 @@ class TrafficGraph(object):
                 if k2 == k1:
                     continue
                 # for each line in two streets we try to find the intersection 
-                # and put proper vertices and edges into list vertex and list edge
+                # and put proper vertices and edges into "vertex" and "edge"
                 for line1 in v1:
                     for line2 in v2:
                         if line1 not in v1:
@@ -55,8 +55,8 @@ class TrafficGraph(object):
                             continue 
                             
                         # this part tries to find out whether line1 and line2 will be separated by intersection
-                        # if so we remove the line from street_info for we have to use the two sublines
-                        # if the line lies in edge we also have to remove it because it is invalid now
+                        # if so we remove the line from street_info for we have to use two sublines in the future
+                        # if the line lies in "edge" we also have to remove it because it is invalid now
                         l1 = self._formEdge(line1[0], line1[1])                        
                         if intersect != line1[0] and intersect != line1[1]: 
                             if l1 in self.edge:
@@ -151,6 +151,7 @@ class TrafficGraph(object):
         id2 = str(p2[0]) + ':' + str(p2[1])
         return (id1, id2)
 
+    
 # check whether the input is valid
 def inputCheck(inputs, graph_obj):
     if inputs[0] == 'a' or inputs[0] == 'c':
@@ -170,8 +171,7 @@ def inputCheck(inputs, graph_obj):
             if not re.match(r'(\([-]?\d+[\.\d+]*,[-]?\d+[\.\d+]*\)\s*)+', t):
                 alertFormatError()
                 return False
-        return True
-           
+        return True           
     elif inputs[0] == 'r':
         if len(inputs) != 2:
             alertFormatError()
@@ -182,8 +182,7 @@ def inputCheck(inputs, graph_obj):
         if inputs[1] not in graph_obj.street_info:
             print 'Removing Street Error: Specified street does not exit'
             return False
-        return True
-    
+        return True    
     elif inputs[0] == 'g':
         if len(inputs) > 1:
             alertFormatError()
@@ -192,6 +191,7 @@ def inputCheck(inputs, graph_obj):
     else:
         alertFormatError()
         return False
+
     
 def alertFormatError():
     print 'Command Format Error: Please type again referring to the example below.'
@@ -201,6 +201,7 @@ def alertFormatError():
     print '\t- Generate the graph (output the vertices and edges): g'
     print '\t- The length of street name should not exceed 50 words'
 
+    
 # parse the coordinate into valid format
 def parseCoordinate(coordinate):
     street_vertex = re.split(r'\)\s*\(', coordinate[1:-1])
@@ -237,6 +238,7 @@ def main():
         # check the input
         if not inputCheck(arguments, graph):
             continue
+            
         # parse the input coordinate and get the output
         if arguments[0] == 'a' or arguments[0] == 'c':
             value = parseCoordinate(arguments[2])
@@ -266,6 +268,6 @@ def main():
     print 'Application terminated'
     sys.exit(0)
 
+    
 if __name__ == '__main__':
     main()
-
